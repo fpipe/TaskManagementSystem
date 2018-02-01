@@ -1,0 +1,71 @@
+﻿@model IEnumerable<TaskManagementSystem.Domain.Entities.Task>
+
+<table class="table">
+    <tr>
+        <th>
+            To Do
+        </th>
+        <th>
+            In Progress
+        </th>
+        <th>
+            In Testing(QA)
+        </th>
+        <th>
+            Done
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            @if ("ToDo" == item.Status.ToString())
+            {
+                <td id=@item.ID>
+                    @Html.ActionLink(item.Name.ToString(), "Update", "Tasks", new { id = item.ID }, null)
+                </td>
+            }
+            else
+            {
+                <td>
+                </td>
+            }
+            @if ("InProgress" == item.Status.ToString())
+            {
+                <td id=@item.ID>
+                    @Html.ActionLink(item.Name.ToString(), "Update", "Tasks", new { id = item.ID }, null)
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @if ("InTesting" == item.Status.ToString())
+            {
+                <td id=@item.ID>
+                    @Html.ActionLink(item.Name.ToString(), "Update", "Tasks", new { id = item.ID }, null)
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @if ("Done" == item.Status.ToString())
+            {
+                <td id=@item.ID>
+                    @Html.ActionLink(item.Name.ToString(), "Update", "Tasks", new { id = item.ID }, null)
+                </td>
+            }
+            else
+            {
+                <td></td>
+            }
+            @*<td>
+                @Html.ActionLink("Edit", "Update", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>*@
+        </tr>
+    }
+
+</table>

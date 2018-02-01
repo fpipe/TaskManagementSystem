@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Task Management System</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul id="nav" class="nav navbar-nav">
+                    @*<li id="home">@Html.ActionLink("Home", "Home", "Home")</li>*@
+                    <li class="admin-view">@Html.ActionLink("Dashboard", "ListAll", "Projects")</li>
+                    <li class="admin-view">@Html.ActionLink("Admin Panel", "ListAll", "Users")</li>
+                    <li id="registerNav">@Html.ActionLink("Create Employee", "Register", "Users")</li>
+                    <li class="admin-view">@Html.ActionLink("Create Customer", "Create", "Customers")</li>
+                    <li class="admin-view">@Html.ActionLink("Create Project", "Create", "Projects")</li>
+                    <li class="admin-view user-view">@Html.ActionLink("Create Task", "Create", "Tasks")</li>
+                    <li class="admin-view">@Html.ActionLink("Users Report", "TasksPerUserReport", "Users")</li>
+                    <li class="admin-view">@Html.ActionLink("Project Report", "ProjetWithLeftTasks", "Projects")</li>
+                    @*<li id="loginNav" >@Html.ActionLink("Login", "Login", "Users")</li>*@
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        @*<footer>
+            <p>&copy; @DateTime.Now.Year - Task Management System</p>
+        </footer>*@
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/UserManagement.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

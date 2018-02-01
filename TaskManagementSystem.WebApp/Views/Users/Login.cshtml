@@ -1,0 +1,114 @@
+﻿@model TaskManagementSystem.Domain.Entities.User
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Login</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @id = "username", @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @id = "password", @class = "form-control ", @type="password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="login" type="button" value="Login" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            var activeUser = JSON.parse(localStorage.activeUser || null);
+            $(".admin-view").hide();
+            if (activeUser != null) {
+                loginChange(activeUser);
+            }
+
+            $("#login").on("click", function (event) {
+                event.preventDefault();
+
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                $.get("/Account/LoginUsername/?username=" + username, function (response) {
+                    if (response > 0) {
+                        $.get("/Account/LoginPassword/?password=" + password, function (response) {
+                            if (response >= 0) {
+                                $("#loginNav a").text(username + " | Log out");
+                                if (response == 0) {
+                                    $(".user-view").show();
+                                    activeUser = "User";
+                                    localStorage.activeUser = JSON.stringify(activeUser);
+                                    loginChange(activeUser);
+                                }
+                                if(response == 1){
+                                    $(".admin-view").show();
+                                    activeUser = "Admin";
+                                    localStorage.activeUser = JSON.stringify(activeUser);
+                                    loginChange(activeUser);
+                                }
+                            } else {
+                                alert("Invalid password");
+                            }
+                        });
+                    } else {
+                        alert("Invalid username");
+                    }
+                });
+            });
+
+            $("#loginNav").on("click", function (event) {
+                event.preventDefault();
+                $("#loginNav a").text("Login");
+                activeUser = null;
+                localStorage.activeUser = JSON.stringify(activeUser);
+                loginChange(activeUser);
+            });
+            $("#registerNav").on("click", function (event) {
+                event.preventDefault();
+                activeUser = null;
+                $(".admin-view").hide();
+            });
+
+
+            function loginChange(activeUser) {
+                if (activeUser == null) {
+                    $(".user-view").hide();
+                    $(".admin-view").hide();
+                }
+                if (activeUser == "User") {
+                    $(".admin-view").hide();
+                    $(".user-view").show();
+                }
+                if (activeUser == "Admin") {
+                    $(".admin-view").show();
+                }
+            }
+        });
+    </script>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
